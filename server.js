@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 
 // Cors for cross origin allowance
 const cors = require('cors');
+app.use(cors());
 
 // Initialize the main project folder
 app.use(express.static('website'));
@@ -21,8 +22,10 @@ app.use(express.static('website'));
 // Setup Server
 const port = 3000;
 const server = app.listen(port, ()=> {
-  console.log(`running on localhost: ${port}`);
+  console.log(`running on localhost:${port}`);
 });
+
+projectData.entries = [];
 
 // Routes
 app.get('/get-data', function (req, res) {
@@ -32,6 +35,6 @@ app.get('/get-data', function (req, res) {
 app.post('/post-data', addProjectData);
 
 function addProjectData(req, res) {
-  data = {temp: req.body.temp, date: req.body.date, userRes: req.body.userRes};
-  projectData.push(data);
+  projectData['entries'].unshift(req.body);
+  res.send('Posted');
 }
